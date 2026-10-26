@@ -72,11 +72,10 @@ const REPO_API='https://api.github.com/repos/zahidahsan/zahidahsan.github.io/con
 const IMAGE_EXT=/\.(jpe?g|png|gif|webp|bmp|avif)$/i;
 const VIDEO_EXT=/\.(mp4|webm|mov|m4v|ogv)$/i;
 const AUDIO_EXT=/\.(mp3|wav|ogg|m4a|aac|flac)$/i;
-const TEXT_EXT=/\.(txt|md|html)$/i;
+const TEXT_EXT=/\.(txt|md)$/i;
 const SKIP_PROFILE=/^profile\.(jpg|jpeg|png|webp)$/i;
 function cleanName(name){return name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ')}
 function makeCaption(name){const el=document.createElement('div');el.textContent=cleanName(name);el.style.cssText='font-weight:700;margin:8px 0;overflow-wrap:anywhere';return el}
-function setStatus(id,text){/* empty sections stay clean; no placeholder messages */}
 async function getContents(path=''){
  const url=REPO_API+path.split('/').filter(Boolean).map(encodeURIComponent).join('/');
  const r=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
@@ -92,7 +91,7 @@ async function collectFiles(){
  }
  return all;
 }
-function renderMedia(files,ext,targetId,statusId,type){
+function renderMedia(files,ext,targetId,type){
  const target=document.getElementById(targetId);target.innerHTML='';let count=0;
  files.filter(f=>ext.test(f.name)&&!SKIP_PROFILE.test(f.name)).forEach(f=>{
   const wrap=document.createElement(type==='image'?'figure':'div');wrap.className=type==='image'?'photo-item':'media-item';
@@ -102,11 +101,11 @@ function renderMedia(files,ext,targetId,statusId,type){
   else {const a=document.createElement('audio');a.src=url;a.controls=true;a.preload='metadata';a.style.width='100%';wrap.appendChild(makeCaption(f.path));wrap.appendChild(a)}
   target.appendChild(wrap);count++;
  });
- setStatus(statusId,'');
+
 }
 async function loadWriting(files){
  const box=document.getElementById('writingItems');box.innerHTML='';let count=0;
- for(const f of files.filter(f=>TEXT_EXT.test(f.name) && !/^index\.html$/i.test(f.name))){
+ for(const f of files.filter(f=>TEXT_EXT.test(f.name))){
   if(SKIP_PROFILE.test(f.name))continue;
   const url=f.download_url||('https://raw.githubusercontent.com/zahidahsan/zahidahsan.github.io/main/'+f.path.split('/').map(encodeURIComponent).join('/'));
   const item=document.createElement('article');item.className='card';item.style.cssText='padding:18px;margin-top:14px;box-shadow:none;border:1px solid #e8ebf2';
@@ -115,16 +114,15 @@ async function loadWriting(files){
   else {const pre=document.createElement('pre');pre.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.8';pre.textContent='লোড হচ্ছে…';item.appendChild(pre);fetch(url).then(r=>r.ok?r.text():Promise.reject()).then(t=>pre.textContent=t).catch(()=>pre.textContent='লেখাটি লোড করা যায়নি। ফাইলটি public repository-তে আছে কি না দেখুন।')}
   box.appendChild(item);count++;
  }
- setStatus('writingStatus','');
+
 }
 async function loadAllContent(){
  try{const files=await collectFiles();
-  renderMedia(files,IMAGE_EXT,'galleryImages','galleryStatus','image');
-  renderMedia(files,VIDEO_EXT,'videoItems','videoStatus','video');
-  renderMedia(files,AUDIO_EXT,'audioItems','audioStatus','audio');
+  renderMedia(files,IMAGE_EXT,'galleryImages','image');
+  renderMedia(files,VIDEO_EXT,'videoItems','video');
+  renderMedia(files,AUDIO_EXT,'audioItems','audio');
   await loadWriting(files);
  }catch(error){
-  ['galleryStatus','videoStatus','audioStatus','writingStatus'].forEach(id=>setStatus(id,''));
   console.error('Content loading failed:',error);
  }
 }
