@@ -57,62 +57,78 @@ footer{text-align:center;padding:30px;color:#7a8293;background:#fff}
 <div class="intro"><div class="eyebrow">PERSONAL WEBSITE</div><h1>মোঃ জাহিদুল ইসলাম</h1><div class="role">শিক্ষক ও সাহিত্যিক</div><p>শিক্ষক ও সাহিত্যিক।</p><a class="btn" href="#about">আমার সম্পর্কে</a></div>
 </section>
 <section class="page" id="about"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>আমার সম্পর্কে</h1><p>আমি মোঃ জাহিদুল ইসলাম। শিক্ষক ও সাহিত্যিক। এই ওয়েবসাইটে আমার পরিচিতি, শিক্ষা ও কর্মজীবন, লেখা, ছবি এবং যোগাযোগের তথ্য ধাপে ধাপে যুক্ত করা হবে।</p></div></section>
-<section class="page" id="writing"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>✍️ আমার লেখা</h1></div></section>
-<section class="page" id="gallery"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>📷 ছবির গ্যালারি</h1></div></section>
-<section class="page" id="video"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎬 ভিডিও</h1></div></section>
-<section class="page" id="audio"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎧 অডিও</h1></div></section>
+<section class="page" id="writing"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>✍️ আমার লেখা</h1><p id="writingStatus" class="sub">লেখা লোড হচ্ছে…</p><div id="writingItems"></div></div></section>
+<section class="page" id="gallery"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>📷 ছবির গ্যালারি</h1><p id="galleryStatus" class="sub">ছবি লোড হচ্ছে…</p><div id="galleryImages" class="gallery-grid"></div></div></section>
+<section class="page" id="video"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎬 ভিডিও</h1><p id="videoStatus" class="sub">ভিডিও লোড হচ্ছে…</p><div id="videoItems" class="gallery-grid"></div></div></section>
+<section class="page" id="audio"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎧 অডিও</h1><p id="audioStatus" class="sub">অডিও লোড হচ্ছে…</p><div id="audioItems"></div></div></section>
 </main>
 <footer>© 2026 মোঃ জাহিদুল ইসলাম</footer>
 <script>
 function toggleMenu(){document.getElementById('menuPanel').classList.toggle('open')}
 document.addEventListener('click',function(e){if(!e.target.closest('.menu-wrap'))document.getElementById('menuPanel').classList.remove('open')});
 
-async function loadGallery(){
- const box=document.getElementById('galleryImages');
- const status=document.getElementById('galleryStatus');
- const seen=new Set();
- let count=0;
- const ignored=new Set(['profile.jpg']);
-
- function addImage(src,name){
-   const key=String(name).toLowerCase();
-   if(seen.has(key)) return;
-   seen.add(key);
-   const figure=document.createElement('figure');
-   figure.className='photo-item';
-   const img=document.createElement('img');
-   img.src=src;
-   img.alt=name;
-   img.loading='lazy';
-   img.onerror=function(){figure.remove();count=Math.max(0,count-1);updateStatus();};
-   const caption=document.createElement('figcaption');
-   caption.textContent=name;
-   figure.appendChild(img);
-   figure.appendChild(caption);
-   box.appendChild(figure);
-   count++;
-   updateStatus();
+// GitHub রিপোজিটরির ফোল্ডার থেকে ফাইল স্বয়ংক্রিয়ভাবে দেখায়। নতুন ফাইল আপলোড করলে কোড বদলাতে হবে না।
+const REPO_API='https://api.github.com/repos/zahidahsan/zahidahsan.github.io/contents/';
+const IMAGE_EXT=/\.(jpe?g|png|gif|webp|bmp|avif)$/i;
+const VIDEO_EXT=/\.(mp4|webm|mov|m4v|ogv)$/i;
+const AUDIO_EXT=/\.(mp3|wav|ogg|m4a|aac|flac)$/i;
+const TEXT_EXT=/\.(txt|md|html)$/i;
+const SKIP_PROFILE=/^profile\.(jpg|jpeg|png|webp)$/i;
+function cleanName(name){return name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ')}
+function makeCaption(name){const el=document.createElement('div');el.textContent=cleanName(name);el.style.cssText='font-weight:700;margin:8px 0;overflow-wrap:anywhere';return el}
+function setStatus(id,text){const el=document.getElementById(id);if(el)el.textContent=text}
+async function getContents(path=''){
+ const url=REPO_API+path.split('/').filter(Boolean).map(encodeURIComponent).join('/');
+ const r=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
+ if(!r.ok) throw new Error('GitHub API: '+r.status);
+ return await r.json();
+}
+async function collectFiles(){
+ const all=[]; const queue=['']; const visited=new Set();
+ while(queue.length){const dir=queue.shift();if(visited.has(dir))continue;visited.add(dir);
+   let entries;try{entries=await getContents(dir)}catch(e){console.warn('Folder skipped:',dir,e);continue}
+   if(!Array.isArray(entries))continue;
+   for(const f of entries){if(f.type==='dir')queue.push(f.path);else if(f.type==='file')all.push(f)}
  }
- function updateStatus(){
-   if(count>0) status.textContent='গ্যালারিতে '+count+'টি ছবি পাওয়া গেছে।';
-   else if(seen.size>0) status.textContent='ছবি লোড করা যায়নি। কিছুক্ষণ পর আবার চেষ্টা করুন।';
+ return all;
+}
+function renderMedia(files,ext,targetId,statusId,type){
+ const target=document.getElementById(targetId);target.innerHTML='';let count=0;
+ files.filter(f=>ext.test(f.name)&&!SKIP_PROFILE.test(f.name)).forEach(f=>{
+  const wrap=document.createElement(type==='image'?'figure':'div');wrap.className=type==='image'?'photo-item':'media-item';
+  const url=f.download_url||('https://raw.githubusercontent.com/zahidahsan/zahidahsan.github.io/main/'+f.path.split('/').map(encodeURIComponent).join('/'));
+  if(type==='image'){const img=document.createElement('img');img.src=url;img.alt=f.name;img.loading='lazy';img.onerror=()=>wrap.remove();wrap.appendChild(img);const cap=document.createElement('figcaption');cap.textContent=f.path;wrap.appendChild(cap)}
+  else if(type==='video'){const v=document.createElement('video');v.src=url;v.controls=true;v.preload='metadata';v.style.cssText='width:100%;max-height:360px;border-radius:12px;background:#111';wrap.appendChild(v);wrap.appendChild(makeCaption(f.path))}
+  else {const a=document.createElement('audio');a.src=url;a.controls=true;a.preload='metadata';a.style.width='100%';wrap.appendChild(makeCaption(f.path));wrap.appendChild(a)}
+  target.appendChild(wrap);count++;
+ });
+ setStatus(statusId,count?`মোট ${count}টি ${type==='image'?'ছবি':type==='video'?'ভিডিও':'অডিও'} পাওয়া গেছে।`:'এই ধরনের কোনো ফাইল পাওয়া যায়নি। সংশ্লিষ্ট ফোল্ডারে ফাইল আপলোড করুন।');
+}
+async function loadWriting(files){
+ const box=document.getElementById('writingItems');box.innerHTML='';let count=0;
+ for(const f of files.filter(f=>TEXT_EXT.test(f.name))){
+  if(SKIP_PROFILE.test(f.name))continue;
+  const url=f.download_url||('https://raw.githubusercontent.com/zahidahsan/zahidahsan.github.io/main/'+f.path.split('/').map(encodeURIComponent).join('/'));
+  const item=document.createElement('article');item.className='card';item.style.cssText='padding:18px;margin-top:14px;box-shadow:none;border:1px solid #e8ebf2';
+  const h=document.createElement('h3');h.textContent=f.path;item.appendChild(h);
+  if(/\.html$/i.test(f.name)){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.textContent='লেখাটি খুলুন';item.appendChild(a)}
+  else {const pre=document.createElement('pre');pre.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.8';pre.textContent='লোড হচ্ছে…';item.appendChild(pre);fetch(url).then(r=>r.ok?r.text():Promise.reject()).then(t=>pre.textContent=t).catch(()=>pre.textContent='লেখাটি লোড করা যায়নি। ফাইলটি public repository-তে আছে কি না দেখুন।')}
+  box.appendChild(item);count++;
  }
-
- try{
-   const response=await fetch('https://api.github.com/repos/zahidahsan/zahidahsan.github.io/contents/');
-   if(!response.ok) throw new Error('GitHub repository list unavailable');
-   const files=await response.json();
-   const images=files.filter(file=>file.type==='file' &&
-     /\.(jpe?g|png|gif|webp|bmp|avif)$/i.test(file.name) &&
-     !ignored.has(file.name.toLowerCase()));
-   images.forEach(file=>addImage(file.download_url || file.name,file.name));
-   if(images.length===0) status.textContent='এখনো কোনো ছবি পাওয়া যায়নি। রিপোজিটরিতে ছবির ফাইল আপলোড করুন।';
+ setStatus('writingStatus',count?`মোট ${count}টি লেখা পাওয়া গেছে।`:'এখনো কোনো লেখা পাওয়া যায়নি। .txt বা .md ফাইল আপলোড করুন।');
+}
+async function loadAllContent(){
+ try{const files=await collectFiles();
+  renderMedia(files,IMAGE_EXT,'galleryImages','galleryStatus','image');
+  renderMedia(files,VIDEO_EXT,'videoItems','videoStatus','video');
+  renderMedia(files,AUDIO_EXT,'audioItems','audioStatus','audio');
+  await loadWriting(files);
  }catch(error){
-   status.textContent='ছবির তালিকা লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।';
-   console.error('Could not load gallery images:',error);
+  ['galleryStatus','videoStatus','audioStatus','writingStatus'].forEach(id=>setStatus(id,'ফাইলের তালিকা লোড করা যায়নি। রিপোজিটরি Public কি না এবং ইন্টারনেট সংযোগ পরীক্ষা করুন।'));
+  console.error('Content loading failed:',error);
  }
 }
-loadGallery();
+loadAllContent();
 </script>
 </body>
 </html>
