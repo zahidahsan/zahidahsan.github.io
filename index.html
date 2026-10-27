@@ -284,55 +284,47 @@ html,body{max-width:100%;overflow-x:hidden}
 .writing-title{min-width:0;overflow-wrap:anywhere;word-break:break-word}
 
 
-/* Stylish profile-only redesign — all other sections unchanged */
+/* Premium home profile redesign — only the home/profile section */
 .hero{
+  position:relative;
   grid-template-columns:minmax(320px,.95fr) minmax(0,1.05fr);
   gap:7%;
-  padding-top:62px;
-  padding-bottom:70px;
+  padding:72px 7% 84px;
+  overflow:hidden;
 }
-.photo{
-  width:min(100%,520px);
-  aspect-ratio:1/1;
-  margin:auto;
-  display:grid;
-  place-items:center;
-  isolation:isolate;
+.hero:before{
+  content:"";position:absolute;inset:0;z-index:-3;
+  background:radial-gradient(circle at 14% 22%,rgba(125,211,252,.18),transparent 27%),radial-gradient(circle at 92% 10%,rgba(14,165,233,.10),transparent 24%);
 }
+.photo{width:min(100%,520px);aspect-ratio:1/1;margin:auto;display:grid;place-items:center;isolation:isolate}
 .photo:before{
-  width:104%;height:104%;left:-2%;bottom:-2%;
-  border-radius:50%;
-  background:transparent;
-  border:9px solid #0d4f8b;
-  box-shadow:0 0 0 7px #f5f7fb,0 0 0 10px rgba(13,79,139,.32),var(--shadow);
-  z-index:-1;
+  content:"";position:absolute;inset:-3%;width:auto;height:auto;left:auto;bottom:auto;
+  border-radius:50%;background:transparent;border:8px solid #0b5792;
+  box-shadow:0 0 0 7px #f5f7fb,0 0 0 10px rgba(11,87,146,.25),0 26px 65px rgba(15,23,42,.16);z-index:-1;
 }
 .photo:after{
-  content:"";position:absolute;inset:-4%;border-radius:50%;z-index:-2;
-  border:3px dashed rgba(13,79,139,.55);transform:rotate(-8deg);
+  content:"";position:absolute;inset:-7%;border-radius:50%;z-index:-2;
+  border:3px dashed rgba(11,87,146,.55);transform:rotate(-9deg);
 }
-.photo img{
-  width:92%;height:92%;max-height:none;aspect-ratio:1/1;
-  object-fit:cover;border-radius:50%;box-shadow:none;
-}
+.photo img{width:92%;height:92%;max-height:none;aspect-ratio:1/1;object-fit:cover;border-radius:50%;box-shadow:none}
 .intro{position:relative}
-.intro:before{
-  content:"HELLO, I’M";display:block;letter-spacing:6px;font-size:13px;
-  font-weight:900;color:#0d4f8b;margin-bottom:10px;
-}
+.intro:before{content:"HELLO, I’M";display:block;letter-spacing:6px;font-size:13px;font-weight:900;color:#0b5792;margin-bottom:10px}
 .intro .eyebrow{display:none}
-.intro h1{color:#082f57;font-weight:950;text-shadow:0 1px 0 #fff}
-.role{
-  display:inline-flex;align-items:center;padding:10px 18px;border-radius:999px;
-  background:linear-gradient(90deg,#d8efff,#c8e7fb);color:#102c50;
-  box-shadow:inset 0 0 0 1px rgba(13,79,139,.06);
-}
-.intro p{color:#263b59;font-size:17px}
+.intro h1{color:#062f57;font-weight:950;text-shadow:0 1px 0 #fff;margin-top:8px}
+.role{display:inline-flex;align-items:center;padding:10px 20px;border-radius:999px;background:linear-gradient(90deg,#d8efff,#c4e6fb);color:#102c50;box-shadow:inset 0 0 0 1px rgba(13,79,139,.08);margin-bottom:22px}
+.intro p{color:#263b59;font-size:17px;font-weight:550}
 .btn{background:linear-gradient(135deg,#073b68,#0c5b98);border-radius:999px}
+/* decorative signature and leaves, visual only */
+.photo .profile-signature{position:absolute;left:-6%;top:-13%;font-family:cursive;font-style:italic;font-size:clamp(42px,5vw,70px);font-weight:800;color:#083e70;transform:rotate(-7deg);z-index:2;line-height:1}
+.photo .profile-motto{position:absolute;left:-8%;bottom:-14%;font-family:cursive;font-style:italic;font-size:clamp(24px,3vw,40px);font-weight:800;color:#083e70;transform:rotate(-8deg);z-index:2;line-height:.9;text-align:center}
+.photo .profile-leaf{position:absolute;right:-8%;bottom:-7%;font-size:clamp(48px,6vw,78px);color:#0b5792;transform:rotate(-28deg);z-index:2}
 @media(max-width:760px){
-  .hero{grid-template-columns:1fr;padding-top:38px;gap:42px}
-  .photo{width:min(84vw,440px)}
-  .photo:before{border-width:7px;box-shadow:0 0 0 5px #f5f7fb,0 0 0 8px rgba(13,79,139,.28),0 22px 55px rgba(15,23,42,.13)}
+  .hero{grid-template-columns:1fr;padding:70px 6% 62px;gap:58px}
+  .photo{width:min(80vw,430px)}
+  .photo:before{border-width:6px;box-shadow:0 0 0 5px #f5f7fb,0 0 0 8px rgba(11,87,146,.24),0 22px 55px rgba(15,23,42,.13)}
+  .photo .profile-signature{left:-1%;top:-17%;font-size:44px}
+  .photo .profile-motto{left:-1%;bottom:-18%;font-size:27px}
+  .photo .profile-leaf{right:-4%;bottom:-12%;font-size:55px}
   .intro:before{font-size:11px;letter-spacing:5px}
   .intro h1{font-size:42px}
   .role{font-size:20px;padding:9px 15px}
@@ -355,7 +347,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </header>
 <main>
 <section class="hero">
-<div class="photo"><img src="profile.jpg" alt="মোঃ জাহিদুল ইসলাম"></div>
+<div class="photo"><span class="profile-signature" aria-hidden="true">Zahid</span><img src="profile.jpg" alt="মোঃ জাহিদুল ইসলাম"><span class="profile-motto" aria-hidden="true">Dream<br>Plan<br>Do</span><span class="profile-leaf" aria-hidden="true">❧</span></div>
 <div class="intro"><div class="eyebrow">PERSONAL WEBSITE</div><h1 class="name-one-color">মোঃ জাহিদুল ইসলাম</h1><div class="role">শিক্ষক • সাহিত্যিক • সৃজনশীল মানুষ</div><p>শিক্ষকতা ও সাহিত্যচর্চার সঙ্গে যুক্ত একজন মানুষ। শিক্ষা, সাহিত্য ও সৃজনশীলতার মাধ্যমে নিজের ভাবনা, অভিজ্ঞতা ও অনুভূতিগুলো মানুষের কাছে তুলে ধরাই আমার এই পথচলার অন্যতম উদ্দেশ্য।</p><a class="btn" href="#about">আমার সম্পর্কে</a></div>
 </section>
 <section class="page" id="about"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>আমার সম্পর্কে</h1>
