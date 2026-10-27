@@ -333,6 +333,19 @@ html,body{max-width:100%;overflow-x:hidden}
   .intro p{font-size:16px;line-height:1.95}
 }
 
+
+/* Full reference-card home composition */
+.hero{grid-template-columns:minmax(330px,.95fr) minmax(0,1.05fr);align-items:center;gap:5%;padding-bottom:42px}
+.quote-banner,.details-title,.details-grid,.about-home-btn{grid-column:1/-1}
+.social-row{display:flex;gap:16px;margin-top:20px;align-items:center}
+.social-row span{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#06365f;color:#fff;font-size:24px;font-weight:900;box-shadow:0 8px 20px rgba(6,54,95,.16)}
+.quote-banner{position:relative;min-height:200px;margin-top:36px;border-radius:20px;padding:38px 42px 34px 56px;color:#fff;display:flex;align-items:center;font-size:clamp(25px,3vw,38px);font-weight:800;line-height:1.45;overflow:hidden;background:linear-gradient(90deg,rgba(4,54,91,.96),rgba(5,78,124,.84)),radial-gradient(circle at 88% 25%,#f9c75b 0 5%,transparent 6%),linear-gradient(160deg,#164e75,#082f49 55%,#0c4a6e);box-shadow:0 16px 38px rgba(8,47,73,.14)}
+.quote-banner:after{content:"";position:absolute;right:-3%;bottom:-28%;width:46%;height:120%;opacity:.3;background:radial-gradient(ellipse at 60% 40%,#fff 0 1%,transparent 2%),linear-gradient(155deg,transparent 45%,#0a2740 46% 56%,transparent 57%)}
+.quote-mark{font-family:Georgia,serif;font-size:86px;line-height:.7;margin-right:14px;align-self:flex-start}.quote-banner small{display:block;font-family:"Brush Script MT","Segoe Script",cursive;font-weight:400;font-style:italic;font-size:30px;margin-top:6px}
+.details-title{display:flex;align-items:center;justify-content:center;gap:22px;margin:24px 0 4px;color:#0b3e6d;font-weight:900;letter-spacing:6px;font-size:17px}.details-title span{width:58px;height:2px;background:#0b3e6d}
+.details-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.detail-card{background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:16px;min-height:165px;padding:18px 12px;text-align:center;box-shadow:0 10px 28px rgba(17,64,94,.07);font-size:18px;color:#123657}.detail-card b{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;margin:0 auto 10px;background:#cceaff;color:#07518d;font-size:26px}.detail-card strong{display:block;margin-top:6px;font-size:19px}.about-home-btn{justify-self:start;margin:8px 0 0 0}
+@media(max-width:760px){.hero{gap:62px}.quote-banner{margin-top:0;padding:28px 22px 25px;min-height:160px;font-size:23px}.quote-mark{font-size:64px}.quote-banner small{font-size:25px}.details-title{font-size:13px;letter-spacing:4px;gap:10px}.details-title span{width:34px}.details-grid{grid-template-columns:repeat(2,1fr);gap:10px}.detail-card{min-height:145px;font-size:16px;padding:15px 8px}.detail-card strong{font-size:17px}.social-row span{width:44px;height:44px}.about-home-btn{margin-top:0}}
+
 </style>
 </head>
 <body>
@@ -351,7 +364,16 @@ html,body{max-width:100%;overflow-x:hidden}
 <main>
 <section class="hero">
 <div class="photo"><span class="profile-signature" aria-hidden="true">Zahid</span><img src="profile.jpg" alt="মোঃ জাহিদুল ইসলাম"><span class="profile-motto" aria-hidden="true">Dream<br>Plan<br>Do</span><span class="profile-leaf" aria-hidden="true">❧</span></div>
-<div class="intro"><div class="eyebrow">PERSONAL WEBSITE</div><h1 class="name-one-color">মোঃ জাহিদুল ইসলাম</h1><div class="role">শিক্ষক • সাহিত্যিক • সৃজনশীল মানুষ</div><p>শিক্ষকতা ও সাহিত্যচর্চার সঙ্গে যুক্ত একজন মানুষ। শিক্ষা, সাহিত্য ও সৃজনশীলতার মাধ্যমে নিজের ভাবনা, অভিজ্ঞতা ও অনুভূতিগুলো মানুষের কাছে তুলে ধরাই আমার এই পথচলার অন্যতম উদ্দেশ্য।</p><a class="btn" href="#about">আমার সম্পর্কে</a></div>
+<div class="intro"><div class="eyebrow">PERSONAL WEBSITE</div><h1 class="name-one-color">মোঃ জাহিদুল ইসলাম</h1><div class="role">শিক্ষক • সাহিত্যিক • সৃজনশীল মানুষ</div><p>শিক্ষকতা ও সাহিত্যচর্চার সঙ্গে যুক্ত একজন মানুষ। শিক্ষা, সাহিত্য ও সৃজনশীলতার মাধ্যমে নিজের ভাবনা, অভিজ্ঞতা ও অনুভূতিগুলো মানুষের কাছে তুলে ধরাই আমার এই পথচলার অন্যতম উদ্দেশ্য।</p><div class="social-row" aria-label="সামাজিক যোগাযোগ"><span>f</span><span>◉</span><span>▶</span><span>➤</span></div></div>
+<div class="quote-banner"><div class="quote-mark">“</div><div>জীবনটা শুধু নিজের জন্য না,<br>ভালো কিছু রেখে যাওয়ার জন্য।<small>— Zahid</small></div></div>
+<div class="details-title"><span></span>PERSONAL DETAILS<span></span></div>
+<div class="details-grid">
+<div class="detail-card"><b>▣</b><div>জন্ম তারিখ</div><strong>N/A</strong></div>
+<div class="detail-card"><b>●</b><div>বর্তমান ঠিকানা</div><strong>বাংলাদেশ</strong></div>
+<div class="detail-card"><b>◇</b><div>পেশাগত অবস্থান</div><strong>শিক্ষক</strong></div>
+<div class="detail-card"><b>♡</b><div>পছন্দের বিষয়</div><strong>সাহিত্য, প্রযুক্তি,<br>সঙ্গীত</strong></div>
+</div>
+<a class="btn about-home-btn" href="#about">👤 &nbsp; আমার সম্পর্কে⌄</a>
 </section>
 <section class="page" id="about"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>আমার সম্পর্কে</h1>
 <p>আমি মোঃ জাহিদুল ইসলাম। শিক্ষকতা ও সাহিত্যচর্চার সঙ্গে যুক্ত একজন মানুষ। শিক্ষা, সাহিত্য ও সৃজনশীলতার মাধ্যমে নিজের ভাবনা, অভিজ্ঞতা ও অনুভূতিগুলো মানুষের কাছে তুলে ধরাই আমার এই পথচলার অন্যতম উদ্দেশ্য।</p>
