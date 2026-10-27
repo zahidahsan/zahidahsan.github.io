@@ -419,6 +419,7 @@ async function showStory(path){
     pre.textContent = 'লেখাটি লোড করা যায়নি।';
   }
 
+  document.querySelector('.hero').style.display='none';
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
   document.getElementById('writingDetail').style.display='block';
   window.scrollTo(0,0);
@@ -452,6 +453,13 @@ function renderWritingList(files){
 
 function updateWritingRoute(){
   const hash = location.hash;
+  const hero = document.querySelector('.hero');
+
+  // আগে সব পেজ ও হোমের অবস্থা পরিষ্কার করি
+  document.querySelectorAll('.page').forEach(p=>{
+    p.style.display = 'none';
+  });
+  hero.style.display = 'none';
 
   // গল্পের আলাদা পেজ
   const path = getStoryPathFromHash();
@@ -460,20 +468,16 @@ function updateWritingRoute(){
     return;
   }
 
-  // অন্য যেকোনো মেনু পেজে গেলে সেটিই দেখাবে
+  // মেনুর যেকোনো পেজে গেলে শুধু সেই পেজটাই দেখাবে
   const targetId = hash ? hash.slice(1) : '';
   const target = document.getElementById(targetId);
-
-  document.querySelectorAll('.page').forEach(p=>{
-    p.style.display = 'none';
-  });
 
   if(target && target.classList.contains('page')){
     target.style.display = 'block';
     window.scrollTo(0,0);
   }else{
-    // কোনো পেজের hash না থাকলে হোম দেখাবে
-    document.querySelector('.hero').style.display = 'grid';
+    // hash না থাকলে শুধু হোম দেখাবে
+    hero.style.display = 'grid';
     window.scrollTo(0,0);
   }
 }
