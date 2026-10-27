@@ -323,7 +323,9 @@ html,body{max-width:100%;overflow-x:hidden}
 <script>
 function toggleMenu(){document.getElementById('menuPanel').classList.toggle('open')}
 document.addEventListener('click',function(e){if(!e.target.closest('.menu-wrap'))document.getElementById('menuPanel').classList.remove('open')});
-document.querySelectorAll('#menuPanel a').forEach(a=>a.addEventListener('click',()=>document.getElementById('menuPanel').classList.remove('open')));
+document.querySelectorAll('#menuPanel a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('menuPanel').classList.remove('open');
+}));
 
 const REPO_API='https://api.github.com/repos/zahidahsan/zahidahsan.github.io/contents/';
 const RAW_BASE='https://raw.githubusercontent.com/zahidahsan/zahidahsan.github.io/main/';
@@ -449,12 +451,29 @@ function renderWritingList(files){
 }
 
 function updateWritingRoute(){
+  const hash = location.hash;
+
+  // গল্পের আলাদা পেজ
   const path = getStoryPathFromHash();
   if(path){
     showStory(path);
-  }else if(location.hash === '#writing'){
-    document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-    document.getElementById('writing').style.display='block';
+    return;
+  }
+
+  // অন্য যেকোনো মেনু পেজে গেলে সেটিই দেখাবে
+  const targetId = hash ? hash.slice(1) : '';
+  const target = document.getElementById(targetId);
+
+  document.querySelectorAll('.page').forEach(p=>{
+    p.style.display = 'none';
+  });
+
+  if(target && target.classList.contains('page')){
+    target.style.display = 'block';
+    window.scrollTo(0,0);
+  }else{
+    // কোনো পেজের hash না থাকলে হোম দেখাবে
+    document.querySelector('.hero').style.display = 'grid';
     window.scrollTo(0,0);
   }
 }
@@ -481,6 +500,7 @@ async function loadAllContent(){
   }
 }
 window.addEventListener('hashchange', updateWritingRoute);
+updateWritingRoute();
 loadAllContent();
 </script>
 </body>
