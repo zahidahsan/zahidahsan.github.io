@@ -233,7 +233,7 @@ footer{
 /* গল্পের লেখা মোবাইল স্ক্রিনের ভেতরেই সুন্দরভাবে ভাঙবে */
 html,body{max-width:100%;overflow-x:hidden}
 .page,.card,.writing-reader{min-width:0;max-width:100%}
-.writing-reader .card{overflow:hidden}
+.writing-reader .card{overflow:hidden;max-width:100%;min-width:0;box-sizing:border-box}
 .writing-reader .story-meta{
   color:#667085;
   font-size:13px;
@@ -251,11 +251,13 @@ html,body{max-width:100%;overflow-x:hidden}
   box-sizing:border-box;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
-  word-break:break-word;
+  word-break:normal;
+  hyphens:none;
   overflow-x:hidden;
   font:inherit;
   line-height:1.95;
   margin:0;
+  padding:0;
   font-size:17px;
 }
 .writing-list{display:grid;gap:12px;margin-top:20px}
@@ -312,7 +314,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <p style="font-weight:800;margin-top:24px">“আমার পথচলা—শিক্ষায়, আমার অনুভব—সাহিত্যে, আর আমার পরিচয়—আমার সৃষ্টিতে।”</p>
 </div></section>
 <section class="page" id="writing"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>✍️ আমার লেখা</h1><p class="sub">একটি লেখা খুলতে নিচের ফাইলের নামে ক্লিক করুন।</p><div id="writingItems" class="writing-list"></div></div></section>
-<section class="page writing-reader" id="writingDetail"><a class="back" href="#writing">← আমার লেখায় ফিরে যান</a><div class="card"><h1 id="storyTitle">লেখা</h1><div id="storyMeta" class="story-meta"></div><pre id="storyText" class="story-text">লোড হচ্ছে…</pre></div></section>
+<section class="page writing-reader" id="writingDetail"><a class="back" href="#writing">← আমার লেখায় ফিরে যান</a><div class="card"><h1 id="storyTitle">লেখা</h1><div id="storyMeta" class="story-meta"></div><div id="storyText" class="story-text">লোড হচ্ছে…</div></div></section>
 <section class="page" id="gallery"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>📷 ছবির গ্যালারি</h1><div id="galleryImages" class="gallery-grid"></div></div></section>
 <section class="page" id="video"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎬 ভিডিও</h1><div id="videoItems" class="gallery-grid"></div></div></section>
 <section class="page" id="audio"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎧 অডিও</h1><div id="audioItems"></div></div></section>
