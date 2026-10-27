@@ -226,6 +226,8 @@ footer{
   .card{padding:24px;border-radius:22px}
   .gallery-grid{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}
   .gallery-grid img{height:190px}
+  .writing-link{padding:15px 14px}
+  .writing-reader .story-text{font-size:16px}
 }
 </style>
 </head>
@@ -261,7 +263,8 @@ footer{
 </ul>
 <p style="font-weight:800;margin-top:24px">“আমার পথচলা—শিক্ষায়, আমার অনুভব—সাহিত্যে, আর আমার পরিচয়—আমার সৃষ্টিতে।”</p>
 </div></section>
-<section class="page" id="writing"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>✍️ আমার লেখা</h1><div id="writingItems"></div></div></section>
+<section class="page" id="writing"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>✍️ আমার লেখা</h1><p class="sub">একটি লেখা খুলতে নিচের ফাইলের নামে ক্লিক করুন।</p><div id="writingItems" class="writing-list"></div></div></section>
+<section class="page writing-reader" id="writingDetail"><a class="back" href="#writing">← আমার লেখায় ফিরে যান</a><div class="card"><h1 id="storyTitle">লেখা</h1><div id="storyMeta" class="story-meta"></div><pre id="storyText" class="story-text">লোড হচ্ছে…</pre></div></section>
 <section class="page" id="gallery"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>📷 ছবির গ্যালারি</h1><div id="galleryImages" class="gallery-grid"></div></div></section>
 <section class="page" id="video"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎬 ভিডিও</h1><div id="videoItems" class="gallery-grid"></div></div></section>
 <section class="page" id="audio"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎧 অডিও</h1><div id="audioItems"></div></div></section>
@@ -330,26 +333,85 @@ function renderMedia(files,ext,targetId,type){
   });
 }
 
-async function loadWriting(files){
-  const box=document.getElementById('writingItems');box.innerHTML='';
-  for(const f of files.filter(f=>TEXT_EXT.test(f.name)&&!/^index\.html$/i.test(f.name))){
-    if(SKIP_PROFILE.test(f.name))continue;
-    const url=f.download_url||(RAW_BASE+f.path.split('/').map(encodeURIComponent).join('/'));
-    const item=document.createElement('article');
-    item.className='card';
-    item.style.cssText='padding:18px;margin-top:14px;box-shadow:none;border:1px solid #e8ebf2';
-    const h=document.createElement('h3');h.textContent=f.path;item.appendChild(h);
+let writingFilesByKey = new Map();
 
-    if(/\.html$/i.test(f.name)){
-      const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.textContent='লেখাটি খুলুন';item.appendChild(a);
-    }else{
-      const pre=document.createElement('pre');
-      pre.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.8';
-      pre.textContent='লোড হচ্ছে…';item.appendChild(pre);
-      fetch(url).then(r=>r.ok?r.text():Promise.reject()).then(t=>pre.textContent=t).catch(()=>pre.textContent='লেখাটি লোড করা যায়নি।');
-    }
-    box.appendChild(item);
+function storyKey(path){
+  return encodeURIComponent(path);
+}
+
+function getStoryPathFromHash(){
+  const prefix = '#writing/';
+  if(!location.hash.startsWith(prefix)) return null;
+  try{return decodeURIComponent(location.hash.slice(prefix.length));}
+  catch(e){return null;}
+}
+
+async function showStory(path){
+  const f = writingFilesByKey.get(path);
+  if(!f) return;
+
+  const title = cleanName(f.name);
+  document.getElementById('storyTitle').textContent = '✍️ ' + title;
+  document.getElementById('storyMeta').textContent = f.path;
+  const pre = document.getElementById('storyText');
+  pre.textContent = 'লোড হচ্ছে…';
+
+  const url = f.download_url || (RAW_BASE + f.path.split('/').map(encodeURIComponent).join('/'));
+
+  try{
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('load failed');
+    const text = await r.text();
+    pre.textContent = text;
+  }catch(e){
+    pre.textContent = 'লেখাটি লোড করা যায়নি।';
   }
+
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById('writingDetail').style.display='block';
+  window.scrollTo(0,0);
+}
+
+function renderWritingList(files){
+  const box=document.getElementById('writingItems');
+  box.innerHTML='';
+  writingFilesByKey.clear();
+
+  const textFiles = files
+    .filter(f=>TEXT_EXT.test(f.name)&&!/^index\.html$/i.test(f.name)&&!SKIP_PROFILE.test(f.name))
+    .sort((a,b)=>a.path.localeCompare(b.path,'bn'));
+
+  if(!textFiles.length){
+    box.innerHTML='<div style="color:#667085;padding:12px 0">এখনও কোনো লেখা পাওয়া যায়নি।</div>';
+    return;
+  }
+
+  textFiles.forEach(f=>{
+    writingFilesByKey.set(f.path,f);
+
+    const a=document.createElement('a');
+    a.className='writing-link';
+    a.href='#writing/'+storyKey(f.path);
+    a.innerHTML='<span class="writing-icon">📄</span><span class="writing-title"></span>';
+    a.querySelector('.writing-title').textContent=cleanName(f.name);
+    box.appendChild(a);
+  });
+}
+
+function updateWritingRoute(){
+  const path = getStoryPathFromHash();
+  if(path){
+    showStory(path);
+  }else if(location.hash === '#writing'){
+    document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+    document.getElementById('writing').style.display='block';
+    window.scrollTo(0,0);
+  }
+}
+
+async function loadWriting(files){
+  renderWritingList(files);
+  updateWritingRoute();
 }
 
 async function loadAllContent(){
@@ -368,6 +430,7 @@ async function loadAllContent(){
     console.error('Content loading failed:',error);
   }
 }
+window.addEventListener('hashchange', updateWritingRoute);
 loadAllContent();
 </script>
 </body>
