@@ -93,26 +93,29 @@ header{
   max-width:1280px;
   margin:auto;
 }
-.photo{position:relative}
+.photo{
+  position:relative;
+  width:min(100%,520px);
+  aspect-ratio:1/1;
+  margin:auto;
+  border-radius:50%;
+  padding:14px;
+  background:linear-gradient(135deg,#0b4f87,#eef8ff 48%,#0b4f87);
+  box-shadow:var(--shadow);
+}
 .photo:before{
-  content:"";
-  position:absolute;
-  width:72%;
-  height:72%;
-  left:-7%;
-  bottom:-7%;
-  border-radius:40px;
-  background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(14,165,233,.08));
-  z-index:-1;
+  content:""; position:absolute; inset:-13px;
+  border:4px solid #0b4f87; border-left-color:transparent; border-right-color:transparent;
+  border-radius:50%; transform:rotate(-10deg); pointer-events:none;
+}
+.photo:after{
+  content:""; position:absolute; inset:-22px;
+  border:2px solid rgba(11,79,135,.55); border-top-color:transparent; border-bottom-color:transparent;
+  border-radius:50%; transform:rotate(14deg); pointer-events:none;
 }
 .photo img{
-  display:block;
-  width:100%;
-  height:auto;
-  max-height:610px;
-  object-fit:contain;
-  border-radius:30px;
-  box-shadow:var(--shadow);
+  display:block; width:100%; height:100%; object-fit:cover; object-position:center;
+  border-radius:50%; box-shadow:0 14px 38px rgba(15,23,42,.18);
 }
 .eyebrow{
   letter-spacing:4px;
@@ -218,7 +221,8 @@ footer{
   }
   .photo{order:1}
   .intro{order:2}
-  .photo img{max-height:480px;border-radius:24px}
+  .photo{width:min(88vw,470px)}
+  .photo img{border-radius:50%}
   .intro h1{color:#172033;font-size:42px;letter-spacing:-1px}
   .role{font-size:21px}
   .about{padding:0 6%}
@@ -279,6 +283,56 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 .writing-title{min-width:0;overflow-wrap:anywhere;word-break:break-word}
 
+
+/* Reference-style home/profile redesign — all other pages/functions unchanged */
+.hero{
+  position:relative; max-width:1280px; min-height:auto; margin:0 auto;
+  grid-template-columns:minmax(360px,.98fr) minmax(0,1.02fr); gap:6%;
+  padding:74px 6% 82px; overflow:hidden; isolation:isolate;
+}
+.hero:before{content:"";position:absolute;inset:0;z-index:-5;background:
+  radial-gradient(ellipse at 12% 14%,rgba(186,225,249,.55),transparent 32%),
+  radial-gradient(ellipse at 91% 7%,rgba(162,214,242,.42),transparent 27%),
+  linear-gradient(135deg,#f9fdff 0%,#eef8ff 45%,#fbfdff 100%)}
+.hero:after{content:"";position:absolute;right:-35px;top:-20px;width:240px;height:180px;z-index:-3;opacity:.38;background:
+  radial-gradient(ellipse at 70% 20%,#4d9ac8 0 7%,transparent 8%),
+  radial-gradient(ellipse at 52% 34%,#4d9ac8 0 7%,transparent 8%),
+  radial-gradient(ellipse at 84% 43%,#4d9ac8 0 7%,transparent 8%),
+  radial-gradient(ellipse at 63% 58%,#4d9ac8 0 7%,transparent 8%);transform:rotate(-20deg)}
+.photo{position:relative;width:min(100%,500px);aspect-ratio:1/1;margin:32px auto 20px;display:grid;place-items:center;isolation:isolate}
+.photo:before{content:"";position:absolute;inset:-5%;width:auto;height:auto;left:auto;bottom:auto;border-radius:50%;z-index:-1;background:
+  repeating-conic-gradient(from 8deg,#07518d 0deg 2deg,transparent 2deg 4deg,#1269a7 4deg 6deg,transparent 6deg 9deg);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 17px),#000 calc(100% - 16px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 17px),#000 calc(100% - 16px));transform:rotate(-4deg)}
+.photo:after{content:"";position:absolute;inset:-1.5%;border:5px solid #fff;border-radius:50%;z-index:0;box-shadow:0 22px 55px rgba(6,47,87,.16)}
+.photo img{position:relative;z-index:1;width:92%;height:92%;max-height:none;aspect-ratio:1/1;object-fit:cover;border-radius:50%;box-shadow:none}
+.photo .profile-signature{position:absolute;left:-6%;top:-21%;z-index:3;font-family:"Brush Script MT","Segoe Script",cursive;font-size:clamp(52px,6vw,78px);font-style:italic;font-weight:700;color:#062f57;line-height:1;transform:rotate(-7deg);text-shadow:0 2px 0 #fff}
+.photo .profile-signature:after{content:"";display:block;width:105%;height:4px;background:#062f57;border-radius:99px;transform:rotate(-8deg) translateY(7px)}
+.photo .profile-motto{position:absolute;left:-7%;bottom:-20%;z-index:3;font-family:"Brush Script MT","Segoe Script",cursive;font-size:clamp(29px,3.4vw,44px);font-style:italic;font-weight:700;color:#062f57;line-height:.82;text-align:center;transform:rotate(-8deg)}
+.photo .profile-leaf{position:absolute;right:-9%;bottom:-12%;z-index:3;font-size:86px;color:#063c70;transform:rotate(-28deg);line-height:1}
+.intro{position:relative;padding-top:18px}
+.intro:before{content:"HELLO, I’M";display:block;color:#0a467d;font-size:13px;font-weight:900;letter-spacing:7px;margin:0 0 12px}
+.intro .eyebrow{display:none}
+.intro h1{color:#062f57;font-size:clamp(50px,6vw,76px);line-height:1.02;font-weight:950;letter-spacing:-2px;margin:8px 0 18px;text-shadow:0 1px 0 #fff}
+.role{display:inline-flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#102e51;background:linear-gradient(90deg,#cceaff,#bfe2f7);border:1px solid rgba(17,86,137,.08);border-radius:999px;padding:10px 20px;margin:0 0 23px;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.role:before{content:"●";color:#0863a7;font-size:18px;margin-right:10px}
+.intro p{max-width:590px;color:#183858;font-size:18px;font-weight:650;line-height:1.9;margin:0}
+.btn{display:inline-flex;margin-top:25px;background:#073b68;color:#fff;border-radius:999px;padding:13px 24px;box-shadow:0 12px 28px rgba(7,59,104,.18)}
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr;padding:82px 6% 58px;gap:72px}
+  .photo{width:min(76vw,430px);margin:34px auto 8px}
+  .photo:before{-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 13px),#000 calc(100% - 12px));mask:radial-gradient(farthest-side,transparent calc(100% - 13px),#000 calc(100% - 12px))}
+  .photo:after{border-width:4px}
+  .photo .profile-signature{left:-2%;top:-23%;font-size:52px}
+  .photo .profile-motto{left:-3%;bottom:-23%;font-size:31px}
+  .photo .profile-leaf{right:-5%;bottom:-17%;font-size:62px}
+  .intro{padding-top:8px;text-align:left}
+  .intro:before{font-size:11px;letter-spacing:5px}
+  .intro h1{font-size:44px;line-height:1.08;letter-spacing:-1px;margin-bottom:16px}
+  .role{font-size:19px;padding:9px 15px;white-space:normal;text-align:center}
+  .intro p{font-size:16px;line-height:1.95}
+}
+
 </style>
 </head>
 <body>
@@ -296,7 +350,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </header>
 <main>
 <section class="hero">
-<div class="photo"><img src="profile.jpg" alt="মোঃ জাহিদুল ইসলাম"></div>
+<div class="photo"><span class="profile-signature" aria-hidden="true">Zahid</span><img src="profile.jpg" alt="মোঃ জাহিদুল ইসলাম"><span class="profile-motto" aria-hidden="true">Dream<br>Plan<br>Do</span><span class="profile-leaf" aria-hidden="true">❧</span></div>
 <div class="intro"><div class="eyebrow">PERSONAL WEBSITE</div><h1 class="name-one-color">মোঃ জাহিদুল ইসলাম</h1><div class="role">শিক্ষক • সাহিত্যিক • সৃজনশীল মানুষ</div><p>শিক্ষকতা ও সাহিত্যচর্চার সঙ্গে যুক্ত একজন মানুষ। শিক্ষা, সাহিত্য ও সৃজনশীলতার মাধ্যমে নিজের ভাবনা, অভিজ্ঞতা ও অনুভূতিগুলো মানুষের কাছে তুলে ধরাই আমার এই পথচলার অন্যতম উদ্দেশ্য।</p><a class="btn" href="#about">আমার সম্পর্কে</a></div>
 </section>
 <section class="page" id="about"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>আমার সম্পর্কে</h1>
