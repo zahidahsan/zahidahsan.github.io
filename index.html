@@ -229,6 +229,54 @@ footer{
   .writing-link{padding:15px 14px}
   .writing-reader .story-text{font-size:16px}
 }
+
+/* গল্পের লেখা মোবাইল স্ক্রিনের ভেতরেই সুন্দরভাবে ভাঙবে */
+html,body{max-width:100%;overflow-x:hidden}
+.page,.card,.writing-reader{min-width:0;max-width:100%}
+.writing-reader .card{overflow:hidden}
+.writing-reader .story-meta{
+  color:#667085;
+  font-size:13px;
+  font-weight:700;
+  margin:-8px 0 22px;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  max-width:100%;
+}
+.writing-reader .story-text{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  overflow-x:hidden;
+  font:inherit;
+  line-height:1.95;
+  margin:0;
+  font-size:17px;
+}
+.writing-list{display:grid;gap:12px;margin-top:20px}
+.writing-link{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  padding:17px 18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  color:var(--ink);
+  text-decoration:none;
+  font-weight:800;
+}
+.writing-title{min-width:0;overflow-wrap:anywhere;word-break:break-word}
+
 </style>
 </head>
 <body>
