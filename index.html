@@ -5,37 +5,240 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>মোঃ জাহিদুল ইসলাম | ব্যক্তিগত ওয়েবসাইট</title>
 <style>
+:root{
+  --bg:#f5f7fb;
+  --surface:rgba(255,255,255,.88);
+  --ink:#111827;
+  --muted:#667085;
+  --line:#e7eaf0;
+  --accent:#172033;
+  --accent-2:#334155;
+  --shadow:0 24px 70px rgba(15,23,42,.10);
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#172033;background:#f7f8fb}
-header{height:68px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 7%;box-shadow:0 2px 12px #0000000d;position:sticky;top:0;z-index:10}
-.brand{font-weight:800;font-size:20px}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,"Noto Sans Bengali","Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 0%,rgba(99,102,241,.08),transparent 28%),
+    radial-gradient(circle at 90% 12%,rgba(14,165,233,.07),transparent 26%),
+    var(--bg);
+}
+header{
+  height:76px;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  border-bottom:1px solid rgba(231,234,240,.8);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.brand{font-weight:900;font-size:21px;letter-spacing:-.4px}
 .menu-wrap{position:relative}
-.menu-btn{border:0;background:transparent;font-size:30px;line-height:1;cursor:pointer;padding:6px}
-.menu-panel{display:none;position:absolute;right:0;top:52px;width:240px;background:#fff;border-radius:16px;box-shadow:0 15px 45px #0003;padding:10px}
-.menu-panel.open{display:block}
-.menu-panel a{display:block;padding:14px 16px;border-radius:10px;text-decoration:none;color:#172033;font-weight:700}
-.menu-panel a:hover{background:#f1f3f7}
-.hero{min-height:calc(100vh - 68px);display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:7%;padding:55px 8%;max-width:1200px;margin:auto}
-.photo img{display:block;width:100%;height:auto;max-height:610px;object-fit:contain;border-radius:24px;box-shadow:0 20px 50px #0002}
-.eyebrow{letter-spacing:3px;font-size:13px;font-weight:800;color:#65708a}
-.intro h1{font-size:clamp(38px,6vw,72px);line-height:1.08;margin:14px 0}
-.role{font-size:24px;font-weight:700;margin:0 0 8px}
-.intro p{line-height:1.8;color:#5d6577;max-width:560px}
-.btn{display:inline-block;margin-top:10px;background:#172033;color:#fff;padding:13px 22px;border-radius:10px;text-decoration:none;font-weight:700}
-.about{max-width:1000px;margin:20px auto 70px;padding:0 7%}
-.card{background:#fff;border-radius:20px;padding:32px;box-shadow:0 12px 35px #0000000b}
+.menu-btn{
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  width:48px;height:48px;
+  border-radius:14px;
+  font-size:27px;
+  line-height:1;
+  cursor:pointer;
+  padding:0;
+  box-shadow:0 8px 24px rgba(15,23,42,.07);
+  transition:.2s ease;
+}
+.menu-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(15,23,42,.12)}
+.menu-panel{
+  display:none;
+  position:absolute;
+  right:0;
+  top:60px;
+  width:260px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 20px 60px rgba(15,23,42,.16);
+  padding:10px;
+}
+.menu-panel.open{display:block;animation:menuIn .18s ease}
+.menu-panel a{
+  display:block;
+  padding:14px 16px;
+  border-radius:12px;
+  text-decoration:none;
+  color:var(--ink);
+  font-weight:800;
+  transition:.18s ease;
+}
+.menu-panel a:hover{background:#f1f4f8;transform:translateX(2px)}
+@keyframes menuIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{
+  min-height:calc(100vh - 76px);
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  align-items:center;
+  gap:8%;
+  padding:70px 7%;
+  max-width:1280px;
+  margin:auto;
+}
+.photo{position:relative}
+.photo:before{
+  content:"";
+  position:absolute;
+  width:72%;
+  height:72%;
+  left:-7%;
+  bottom:-7%;
+  border-radius:40px;
+  background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(14,165,233,.08));
+  z-index:-1;
+}
+.photo img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:610px;
+  object-fit:contain;
+  border-radius:30px;
+  box-shadow:var(--shadow);
+}
+.eyebrow{
+  letter-spacing:4px;
+  font-size:12px;
+  font-weight:900;
+  color:#68738a;
+  text-transform:uppercase;
+}
+.intro h1{
+  font-size:clamp(40px,6vw,78px);
+  line-height:1.06;
+  letter-spacing:-2px;
+  margin:16px 0 12px;
+}
+.role{font-size:26px;font-weight:800;margin:0 0 12px}
+.intro p{
+  line-height:1.85;
+  color:var(--muted);
+  max-width:560px;
+  font-size:16px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:18px;
+  background:var(--accent);
+  color:#fff;
+  padding:14px 24px;
+  border-radius:13px;
+  text-decoration:none;
+  font-weight:800;
+  box-shadow:0 12px 28px rgba(23,32,51,.18);
+  transition:.2s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(23,32,51,.23)}
+
+.about{max-width:1050px;margin:20px auto 80px;padding:0 7%}
+.card{
+  background:var(--surface);
+  border:1px solid rgba(231,234,240,.9);
+  border-radius:26px;
+  padding:38px;
+  box-shadow:0 18px 55px rgba(15,23,42,.07);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
 .card h2{margin-top:0}
-footer{text-align:center;padding:30px;color:#7a8293;background:#fff}
-.page{display:none;min-height:calc(100vh - 68px);padding:55px 7%;max-width:1000px;margin:auto}
+footer{
+  text-align:center;
+  padding:34px;
+  color:#7a8293;
+  background:rgba(255,255,255,.75);
+  border-top:1px solid var(--line);
+}
+.page{
+  display:none;
+  min-height:calc(100vh - 76px);
+  padding:60px 7%;
+  max-width:1050px;
+  margin:auto;
+}
 .page:target{display:block}
-.page .back{display:inline-block;margin-bottom:24px;text-decoration:none;color:#172033;font-weight:700}
-.page h1{font-size:36px;margin-top:0}
+
+.page .back{
+  cursor:pointer;
+}
+.folder-empty{
+  padding:18px;
+  color:#667085;
+  border:1px dashed #d8dde7;
+  border-radius:14px;
+  margin-top:14px;
+}
+
+.page .back{
+  display:inline-block;
+  margin-bottom:24px;
+  text-decoration:none;
+  color:var(--ink);
+  font-weight:800;
+}
+.page h1{font-size:clamp(32px,5vw,48px);margin-top:0;letter-spacing:-1px}
 .sub{margin-top:12px;font-weight:700;color:#39445d}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:20px}
-.gallery-grid img{display:block;width:100%;height:240px;object-fit:contain;border-radius:12px;background:#f1f3f7}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;
+  margin-top:20px;
+}
+.gallery-grid img{
+  display:block;
+  width:100%;
+  height:240px;
+  object-fit:contain;
+  border-radius:16px;
+  background:#f1f3f7;
+}
 .gallery-grid .photo-item{margin:0}
-.gallery-grid figcaption{font-size:13px;color:#65708a;overflow-wrap:anywhere;margin-top:5px}
-@media(max-width:760px){.hero{grid-template-columns:1fr;padding:30px 6%;gap:30px}.photo{order:1}.intro{order:2}.photo img{max-height:480px}.intro h1{font-size:42px}.role{font-size:21px}.about{padding:0 6%}.page{padding:35px 6%}.card{padding:22px}.gallery-grid{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}.gallery-grid img{height:190px}}
+.gallery-grid figcaption{
+  font-size:13px;
+  color:#65708a;
+  overflow-wrap:anywhere;
+  margin-top:7px;
+}
+@media(max-width:760px){
+  header{height:68px;padding:0 5%}
+  .brand{font-size:18px}
+  .menu-btn{width:45px;height:45px}
+  .hero{
+    min-height:calc(100vh - 68px);
+    grid-template-columns:1fr;
+    padding:34px 6% 55px;
+    gap:34px;
+  }
+  .photo{order:1}
+  .intro{order:2}
+  .photo img{max-height:480px;border-radius:24px}
+  .intro h1{font-size:42px;letter-spacing:-1px}
+  .role{font-size:21px}
+  .about{padding:0 6%}
+  .page{padding:38px 6%}
+  .card{padding:24px;border-radius:22px}
+  .gallery-grid{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}
+  .gallery-grid img{height:190px}
+}
 </style>
 </head>
 <body>
@@ -57,14 +260,17 @@ footer{text-align:center;padding:30px;color:#7a8293;background:#fff}
 <div class="intro"><div class="eyebrow">PERSONAL WEBSITE</div><h1>মোঃ জাহিদুল ইসলাম</h1><div class="role">শিক্ষক ও সাহিত্যিক</div><p>শিক্ষক ও সাহিত্যিক।</p><a class="btn" href="#about">আমার সম্পর্কে</a></div>
 </section>
 <section class="page" id="about"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>আমার সম্পর্কে</h1><p>আমি মোঃ জাহিদুল ইসলাম। শিক্ষক ও সাহিত্যিক। এই ওয়েবসাইটে আমার পরিচিতি, শিক্ষা ও কর্মজীবন, লেখা, ছবি এবং যোগাযোগের তথ্য ধাপে ধাপে যুক্ত করা হবে।</p></div></section>
-<section class="page" id="writing"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>✍️ আমার লেখা</h1><div id="writingItems"></div></div></section>
-<section class="page" id="gallery"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>📷 ছবির গ্যালারি</h1><div id="galleryImages" class="gallery-grid"></div></div></section>
-<section class="page" id="video"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎬 ভিডিও</h1><div id="videoItems" class="gallery-grid"></div></div></section>
-<section class="page" id="audio"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎧 অডিও</h1><div id="audioItems"></div></div></section>
+<section class="page" id="writing"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>✍️ আমার লেখা</h1><div id="writingItems"></div><div id="writingStatus"></div></div></section>
+<section class="page" id="gallery"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>📷 ছবির গ্যালারি</h1><div id="galleryImages" class="gallery-grid"></div><div id="galleryStatus"></div></div></section>
+<section class="page" id="video"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎬 ভিডিও</h1><div id="videoItems" class="gallery-grid"></div><div id="videoStatus"></div></div></section>
+<section class="page" id="audio"><a class="back" href="#">← হোমে ফিরে যান</a><div class="card"><h1>🎧 অডিও</h1><div id="audioItems"></div><div id="audioStatus"></div></div></section>
 </main>
 <footer>© 2026 মোঃ জাহিদুল ইসলাম</footer>
 <script>
 function toggleMenu(){document.getElementById('menuPanel').classList.toggle('open')}
+document.querySelectorAll('#menuPanel a').forEach(function(a){
+  a.addEventListener('click',function(){document.getElementById('menuPanel').classList.remove('open')});
+});
 document.addEventListener('click',function(e){if(!e.target.closest('.menu-wrap'))document.getElementById('menuPanel').classList.remove('open')});
 
 // GitHub রিপোজিটরির ফোল্ডার থেকে ফাইল স্বয়ংক্রিয়ভাবে দেখায়। নতুন ফাইল আপলোড করলে কোড বদলাতে হবে না।
@@ -76,7 +282,10 @@ const TEXT_EXT=/\.(txt|md|html)$/i;
 const SKIP_PROFILE=/^profile\.(jpg|jpeg|png|webp)$/i;
 function cleanName(name){return name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ')}
 function makeCaption(name){const el=document.createElement('div');el.textContent=cleanName(name);el.style.cssText='font-weight:700;margin:8px 0;overflow-wrap:anywhere';return el}
-function setStatus(id,text){/* empty sections stay clean; no placeholder messages */}
+function setStatus(id,text){
+  const el=document.getElementById(id);
+  if(el && text) el.innerHTML='<div class="folder-empty">'+text+'</div>';
+}
 async function getContents(path=''){
  const url=REPO_API+path.split('/').filter(Boolean).map(encodeURIComponent).join('/');
  const r=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
