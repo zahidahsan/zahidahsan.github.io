@@ -536,8 +536,35 @@ body.route-inner .page{display:none}
   gtag('config', GA_MEASUREMENT_ID);
 })();
 </script>
-<!-- Public page-view counter (CounterAPI.com) -->
-<script src="https://counterapi.com/c.js?ns=zahidahsan.github.io" async></script>
+<!-- Public page-view counter (CounterAPI.com): one shared total for the whole site -->
+<script>
+(function () {
+  var box = document.querySelector('.public-visitor-counter .counterapi');
+  if (!box) return;
+  window.zahidVisitorCounterCallback = function (response) {
+    if (response && typeof response.value === 'number') {
+      box.textContent = response.value.toLocaleString('bn-BD');
+      box.setAttribute('aria-live', 'polite');
+    } else {
+      box.textContent = 'এই মুহূর্তে সংখ্যা দেখা যাচ্ছে না';
+    }
+  };
+  var script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://counterapi.com/api/zahidahsan.github.io/view/homepage?callback=zahidVisitorCounterCallback';
+  script.onerror = function () {
+    box.textContent = 'এই মুহূর্তে সংখ্যা দেখা যাচ্ছে না';
+    box.title = 'ভিজিটর কাউন্টারের সার্ভারে সংযোগ করা যাচ্ছে না। পরে আবার চেষ্টা করুন।';
+  };
+  document.head.appendChild(script);
+  window.setTimeout(function () {
+    if (box.textContent.trim() === 'লোড হচ্ছে…' || box.textContent.trim() === 'Loading...') {
+      box.textContent = 'এই মুহূর্তে সংখ্যা দেখা যাচ্ছে না';
+      box.title = 'ভিজিটর কাউন্টারের উত্তর আসেনি। পরে আবার চেষ্টা করুন।';
+    }
+  }, 10000);
+})();
+</script>
 <script>
 function toggleMenu(){document.getElementById('menuPanel').classList.toggle('open')}
 document.addEventListener('click',function(e){if(!e.target.closest('.menu-wrap'))document.getElementById('menuPanel').classList.remove('open')});
